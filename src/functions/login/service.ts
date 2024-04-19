@@ -17,11 +17,11 @@ export const process = async (
 
     const { body, query } = request;
 
-    const { state: _state } = query;
+    const { state: _state = null } = query;
     
     if (!_state) {
         return new Response({
-            status: HTTPStatus.FORBIDDEN,
+            statusCode: HTTPStatus.FORBIDDEN,
             message: "Unauthorized redirect URL",
         });
     }
@@ -34,7 +34,7 @@ export const process = async (
 
     if (!state || !SSO?.redirectUrls?.includes(redirectUrl)) {
         return new Response({
-            status: HTTPStatus.FORBIDDEN,
+            statusCode: HTTPStatus.FORBIDDEN,
             message: "Unauthorized redirect URL",
         });
     }
@@ -43,7 +43,7 @@ export const process = async (
 
     if (!(username?.length > 0) || !(password?.length > 0)) {
         return new Response({
-            status: HTTPStatus.BAD_REQUEST,
+            statusCode: HTTPStatus.BAD_REQUEST,
             message: "Username and password are required",
         });
     }
@@ -58,7 +58,7 @@ export const process = async (
 
     if (!user || !(await bcrypt.compare(password, user.password))) {
         return new Response({
-            status: HTTPStatus.UNAUTHORIZED,
+            statusCode: HTTPStatus.UNAUTHORIZED,
             message: "Wrong username or password",
         });
     }
@@ -77,19 +77,9 @@ export const process = async (
 
     const redirect = `${redirectUrl}?token=${randomHash}`;
 
-    console.log("redirect", redirect);
-
-    console.log(
-        new Response({
-            status: 200,
-            data: {
-                redirect,
-            },
-        })
-    );
 
     return new Response({
-        status: 200,
+        statusCode: HTTPStatus.OK,
         data: {
             redirect,
         },

@@ -35,7 +35,7 @@ export const apiHandler =
         } catch (error) {
             console.error(error);
             return new Response({
-                status: HTTPStatus.INTERNAL_SERVER_ERROR,
+                statusCode: HTTPStatus.INTERNAL_SERVER_ERROR,
                 message: "Internal Server Error",
             });
         }

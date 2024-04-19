@@ -13,7 +13,7 @@ export const process = async (
     const cachedToken = await Redis.get(token);
     if (!cachedToken) {
         return new Response({
-            status: HTTPStatus.UNAUTHORIZED,
+            statusCode: HTTPStatus.UNAUTHORIZED,
             message: "Unauthorized",
         });
     }
@@ -23,7 +23,7 @@ export const process = async (
     const user = JSON.parse(cachedToken);
 
     return new Response({
-        status: 200,
+        statusCode: 200,
         data: user,
     });
 };

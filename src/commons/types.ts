@@ -16,18 +16,18 @@ export class Response {
     body: any;
 
     constructor({
-        status,
+        statusCode,
         message,
         data,
     }: {
-        status: number;
+        statusCode: number;
         code?: number;
         message?: string;
         data?: any;
     }) {
-        this.statusCode = status ?? HTTPStatus.OK;
+        this.statusCode = statusCode ?? HTTPStatus.OK;
         this.body = JSON.stringify({
-            status: status ?? 200,
+            statusCode: statusCode ?? 200,
             message: message ?? "ok",
             data,
         });
