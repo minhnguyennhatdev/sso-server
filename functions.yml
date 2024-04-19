@@ -1,0 +1,16 @@
+functions:
+  login:
+    handler: src/functions/login/handler.handler
+    events:
+      - http:
+          path: /login
+          method: POST
+          cors: true # <-- CORS!
+  authenticated:
+    handler: src/functions/authenticated/handler.handler
+    events:
+      - http:
+          path: /authenticated
+          method: GET
+          cors: true # <-- CORS!
+

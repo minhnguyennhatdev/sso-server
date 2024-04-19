@@ -1,0 +1,49 @@
+service: sso-server
+
+frameworkVersion: '3'
+
+package: 
+  individually: true
+  patterns:
+    - sso.yml
+    - global-bundle.pem
+
+custom:
+  serverless-offline:
+    httpPort: 3000
+
+  variables:
+    role: arn:aws:iam::106373595693:role/i-am-a-god-role
+    bucket: boybetby-bucket
+
+provider: 
+  name: aws
+  runtime: nodejs20.x
+  stage: ${opt:stage, 'dev'}
+  region: ap-southeast-1
+  deploymentMethod: changesets
+  memorySize: 256
+  timeout: 10
+  versionFunctions: false
+  logRetentionInDays: 7
+  stackName: ${self:service}-${self:provider.stage}
+  role: ${self:custom.variables.role}
+  deploymentBucket:
+    name: ${self:custom.variables.bucket}
+  vpc:
+    securityGroupIds:
+      - sg-053106c9e454abc30
+    subnetIds:
+      - subnet-00bc3162f10e76ce7
+      - subnet-00ead309f4d67b3f5
+      - subnet-0fb60db6e4c259a35
+  httpApi:
+    cors: true
+    metrics: true
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-offline
+  - serverless-dotenv-plugin
+
+functions: ${file(functions.yml):functions}
