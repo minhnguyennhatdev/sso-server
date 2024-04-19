@@ -18,6 +18,14 @@ export const process = async (
     const { body, query } = request;
 
     const { state: _state } = query;
+    
+    if (!_state) {
+        return new Response({
+            status: HTTPStatus.FORBIDDEN,
+            message: "Unauthorized redirect URL",
+        });
+    }
+
     const state = _state
         ? JSON.parse(Buffer.from(_state, "base64").toString())
         : {};
