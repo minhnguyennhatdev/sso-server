@@ -1,3 +1,3 @@
 redirectUrls:
-  - http://localhost:8001
-  - https://todo.minhnguyen.io.vn
+  - http://localhost:8001/authenticated
+  - https://todo.minhnguyen.io.vn/authenticated
