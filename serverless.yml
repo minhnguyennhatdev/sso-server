@@ -34,8 +34,6 @@ provider:
     securityGroupIds:
       - sg-0a470c17263a78b5b # public
     subnetIds:
-      # - subnet-01fcf68eb635e0d3b # public
-      # - subnet-072cfa9f32ebc3347 # public
       - subnet-06e4be73a87c936a8 # private
       - subnet-0340b0e9043a99096 # private
       - subnet-000a1c887c1f0b499 # private
