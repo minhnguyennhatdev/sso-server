@@ -6,7 +6,6 @@ package:
   individually: true
   patterns:
     - sso.yml
-    - global-bundle.pem
 
 custom:
   serverless-offline:
