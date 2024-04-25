@@ -14,6 +14,13 @@ custom:
   variables:
     role: arn:aws:iam::106373595693:role/i-am-a-god-role
     bucket: boybetby-bucket
+    vpc:
+      securityGroupIds:
+        - sg-0a470c17263a78b5b # public
+      subnetIds:
+        - subnet-06e4be73a87c936a8 # private
+        - subnet-0340b0e9043a99096 # private        
+        - subnet-000a1c887c1f0b499 # private
 
 provider: 
   name: aws
@@ -29,13 +36,7 @@ provider:
   role: ${self:custom.variables.role}
   deploymentBucket:
     name: ${self:custom.variables.bucket}
-  vpc:
-    securityGroupIds:
-      - sg-0a470c17263a78b5b # public
-    subnetIds:
-      - subnet-06e4be73a87c936a8 # private
-      - subnet-0340b0e9043a99096 # private
-      - subnet-000a1c887c1f0b499 # private
+  vpc: ${self:custom.variables.vpc}
   httpApi:
     cors: true
     metrics: true
