@@ -4,7 +4,6 @@ import { APIGatewayProxyResult } from "aws-lambda";
 import crypto from "crypto";
 import { Request, Response } from "./../../commons/types";
 import { UserModel } from "../../models/users";
-import { connectMongo } from "../../databases/mongodb";
 import { HTTPStatus, MINUTE_TO_SECOND } from "../../configs/constants";
 import { loadYaml } from "../../commons/utils";
 import { UserDTO } from "./dtos/user";
@@ -47,8 +46,6 @@ export const process = async (
             message: "Username and password are required",
         });
     }
-
-    await connectMongo();
 
     const user = await UserModel.findOne({
         username,

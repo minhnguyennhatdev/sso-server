@@ -4,6 +4,8 @@ import { SECOND_TO_MILLISECOND } from "../configs/constants";
 
 const MONGODB_URL = config.MONGODB_URL;
 
+mongoose.set('debug', !config.IS_PROD)
+
 export const connectMongo = async () => {
     try {
         console.log("Connecting to MongoDB");

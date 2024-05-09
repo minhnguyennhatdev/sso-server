@@ -4,6 +4,7 @@ import fs from "fs";
 import yaml from "js-yaml";
 import { HTTPStatus } from "../configs/constants";
 import { config } from "../configs/configuration";
+import { connectMongo } from "../databases/mongodb";
 
 export const readFile = (_path: string) => {
     return fs.readFileSync(_path, "utf8");
@@ -29,6 +30,7 @@ export const apiHandler =
             console.log(config);
             const request: Request = parseServerlessEvent(event);
             console.log("request", request);
+            await connectMongo();
             const response = await process(request);
             console.log("response", response);
             return response;
