@@ -8,20 +8,20 @@ import { HTTPStatus, MINUTE_TO_SECOND } from "../../configs/constants";
 import { loadYaml } from "../../commons/utils";
 import { UserDTO } from "./dtos/user";
 import { Redis } from "../../databases/redis";
-
+import { Exceptions } from "./exceptions";
 
 export const process = async (
     request: Request
 ): Promise<APIGatewayProxyResult> => {
-
     const { body, query } = request;
 
     const { state: _state = null } = query;
-    
+
     if (!_state) {
         return new Response({
             statusCode: HTTPStatus.FORBIDDEN,
             message: "Unauthorized redirect URL",
+            code: Exceptions.FORBIDDEN_RESOURCE,
         });
     }
 
@@ -35,6 +35,7 @@ export const process = async (
         return new Response({
             statusCode: HTTPStatus.FORBIDDEN,
             message: "Unauthorized redirect URL",
+            code: Exceptions.FORBIDDEN_RESOURCE,
         });
     }
 
@@ -43,7 +44,7 @@ export const process = async (
     if (!(username?.length > 0) || !(password?.length > 0)) {
         return new Response({
             statusCode: HTTPStatus.BAD_REQUEST,
-            message: "Username and password are required",
+            message: Exceptions.INVALID_INPUT,
         });
     }
 
@@ -57,12 +58,11 @@ export const process = async (
         return new Response({
             statusCode: HTTPStatus.UNAUTHORIZED,
             message: "Wrong username or password",
+            code: Exceptions.INVALID_CREDENTIALS,
         });
     }
 
     const randomHash = crypto.randomBytes(32).toString("hex");
-
-    console.log("randomHash", randomHash);
 
     await Redis.setex(
         randomHash,
@@ -70,10 +70,7 @@ export const process = async (
         JSON.stringify(new UserDTO(user))
     );
 
-    console.log(JSON.stringify(new UserDTO(user)));
-
     const redirect = `${redirectUrl}?token=${randomHash}`;
-
 
     return new Response({
         statusCode: HTTPStatus.OK,

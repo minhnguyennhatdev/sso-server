@@ -1,9 +1,9 @@
 import { HTTPStatus } from "../configs/constants";
 
-export class Request {
+export class Request<B = any, Q = any> {
+    body: B;
+    query: Q;
     params: any;
-    body: any;
-    query: any;
 }
 
 export class Response {
@@ -19,16 +19,18 @@ export class Response {
         statusCode,
         message,
         data,
+        code
     }: {
         statusCode: number;
-        code?: number;
         message?: string;
         data?: any;
+        code?: string | number;
     }) {
         this.statusCode = statusCode ?? HTTPStatus.OK;
         this.body = JSON.stringify({
             statusCode: statusCode ?? 200,
             message: message ?? "ok",
+            code,
             data,
         });
     }

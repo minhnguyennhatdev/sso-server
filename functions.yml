@@ -13,4 +13,10 @@ functions:
           path: /authenticated
           method: GET
           cors: true # <-- CORS!
-
+  register:
+    handler: src/functions/register/handler.handler
+    events:
+      - http:
+          path: /register
+          method: POST
+          cors: true # <-- CORS!
